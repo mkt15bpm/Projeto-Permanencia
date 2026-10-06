@@ -1,0 +1,23 @@
+# Compilação e publicação
+[Bb]in/
+[Oo]bj/
+publish/
+.dotnet-cli/
+work/
+
+# Distribuições: devem ser publicadas como Releases no GitHub
+outputs/
+
+# Dados operacionais e backups
+*.db
+*.db-shm
+*.db-wal
+*.bkp
+Backup/
+
+# Arquivos temporários e locais
+*.tmp
+*.user
+*.suo
+.vs/
+failure.txt
