@@ -1,0 +1,51 @@
+name: Gerar executavel e instalador Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'PermanenciaWpf/**'
+      - 'installer/**'
+      - '.github/workflows/build-windows.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Compilar e publicar com runtime incluido
+        shell: pwsh
+        run: |
+          dotnet publish PermanenciaWpf/PermanenciaWpf.csproj -c Release -r win-x64 --self-contained true -o publish
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Instalar Inno Setup
+        shell: pwsh
+        run: |
+          choco install innosetup --yes --no-progress
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Gerar instalador
+        shell: pwsh
+        run: |
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" installer/PermanenciaWpf.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Disponibilizar aplicativo completo
+        uses: actions/upload-artifact@v4
+        with:
+          name: Permanencia-Windows-x64
+          path: publish/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Disponibilizar instalador
+        uses: actions/upload-artifact@v4
+        with:
+          name: Permanencia-Instalador
+          path: outputs/*.exe
+          if-no-files-found: error
+          retention-days: 30
