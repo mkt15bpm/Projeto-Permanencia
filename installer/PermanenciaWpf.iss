@@ -1,5 +1,5 @@
 #define MyAppName "Projeto Permanência 15º BPM"
-#define MyAppVersion "1.0.6"
+#define MyAppVersion "1.0.9"
 #define MyAppExeName "PermanenciaWpf.exe"
 
 [Setup]
@@ -9,7 +9,7 @@ AppVersion={#MyAppVersion}
 DefaultDirName={autopf}\Permanencia15BPM
 DefaultGroupName={#MyAppName}
 OutputDir=..\outputs
-OutputBaseFilename=Projeto-Permanencia-WPF-Instalador-1.0.6
+OutputBaseFilename=Projeto-Permanencia-WPF-Instalador-1.0.9
 Compression=lzma2
 SolidCompression=yes
 PrivilegesRequired=admin
